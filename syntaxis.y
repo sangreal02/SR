@@ -22,20 +22,30 @@ int siginst;
 }
 
 %token <sval> ID
-%token NUM
-%token INT MAIN PRINT VOID
-%token IF WHILE BREAK 
-%token PYC
+%token REAL ENT 
+%token CAR CAD
+%token DOUBLE FLOAT INT CHAR STRING STRUCT FUNC PRINT VOID
+%token IF SWITCH CASE DEF FOR DO WHILE RETURN BREAK 
+%token TR FLS
+%token PYC SEP DP
 %token LKEY RKEY
+%token LBRA RBRA
 
+%left SEPX
 %left ASIG
+
 %left OR
 %left AND
 %left EQUAL NE
-%left GT LT
+%left GT LT GTE LTE
+%right NOT
+
 %left ADD SUB
-%left MUL DIV
+%left MUL DIV MOD
 %nonassoc RPAR LPAR
+
+%left FUNCX ARRX PUNTO
+
 %left IFX
 %left ELSE
 
@@ -49,59 +59,79 @@ program : {init();}
             print_table();            
          };
 
-         
-decl: INT ID PYC {
-            if(existe($2)==-1){                
-                symbol sym;
-                strcpy(sym.id, $2);
-                sym.dir = dir;
-                sym.type = 1;
-                sym.var = 0;
-                insert(sym);
-                dir+= 4;
-            }else{
-                yyerror("Identificador duplicado");
-            }
-    } decl | ;
-    
+decl : tipo list_id
+      | ;
 
-function: VOID MAIN LPAR RPAR LKEY block RKEY;
-        
-       
-block:  sents | ;
+tipo : INT | FLOAT | DOUBLE | CHAR | VOID | STRUCT LKEY decl RKEY;
 
-sents: sents sent | sent ;
+list_id : list_id SEP ID tipo_arr | ID tipo_arr;
 
-sent:     ID ASIG exp PYC
-        | IF LPAR cond RPAR LKEY block RKEY %prec IFX
-        | IF LPAR cond RPAR LKEY block RKEY ELSE goto_else LKEY block RKEY
+tipo_arr : LKEY ENT RKEY tipo_arr | ;
+
+function : FUNC tipo ID LPAR def_param RPAR LKEY decl sent RKEY function | ;
+
+def_param : list_param | ;
+
+list_param : list_param SEP tipo ID param_arr %prec SEPX | tipo ID param_arr %prec SEPX;
+
+param_arr : LBRA RBRA param_arr | ;
+
+sent :   sent sent  
+		| ID ASIG exp PYC
+        | IF LPAR cond RPAR sent %prec IFX
+        | IF LPAR cond RPAR sent ELSE sent
+		| SWITCH LPAR exp RPAR LKEY casos pred RKEY
+		| LKEY sent RKEY
         | PRINT exp
-        | WHILE LPAR cond RPAR LKEY block RKEY
+		| FOR LPAR ids ASIG exp PYC cond PYC ids ASIG exp RPAR sent
+        | WHILE LPAR cond RPAR sent
+		| DO LKEY sent RKEY WHILE LPAR cond RPAR PYC
+		| ids ASIG exp PYC
+		| RETURN exp PYC
+		| RETURN PYC
         | BREAK PYC;
-        
-goto_else:;
-    
+		
+casos : CASE DP ENT sent casos | ;
 
-cond :  cond OR cond
-        | cond AND cond 
-        | exp rel exp 
-        ;
+pred : DEF DP sent | ;
 
-rel : EQUAL 
-        | NE
-        | GT
-        | LT
-        ;
+ids : ID | arr | ID PUNTO ID;
+
+arr : ID LKEY exp RKEY %prec ARRX | arr LKEY exp RKEY %prec ARRX;
 
 exp :  exp ADD exp 
         | exp SUB exp
         | exp MUL exp
         | exp DIV exp
-        | NUM 
-        | ID
-        | LPAR exp RPAR
+		| exp MOD exp
+		| ids
+		| ENT
+		| REAL
+        | CAR
+		| CAD
+        | ID LPAR paso_param RPAR %prec FUNCX
         ;
-        
+
+paso_param : paso_param SEP exp | exp;
+
+cond :  cond OR cond
+        | cond AND cond 
+		| LPAR cond RPAR
+        | exp rel exp
+		| NOT cond
+		| TR
+		| FLS
+        ;
+		
+
+rel : EQUAL 
+        | NE
+        | GT
+		| GTE
+        | LT
+		| LTE
+        ;
+
 
         
 %%

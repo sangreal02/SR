@@ -1,0 +1,2327 @@
+Terminals unused in grammar
+
+   STRING
+
+
+State 15 conflicts: 1 shift/reduce
+State 25 conflicts: 1 shift/reduce
+State 27 conflicts: 1 shift/reduce
+State 44 conflicts: 1 shift/reduce
+State 56 conflicts: 1 shift/reduce
+State 61 conflicts: 1 shift/reduce
+State 78 conflicts: 10 shift/reduce
+State 139 conflicts: 10 shift/reduce
+State 143 conflicts: 10 shift/reduce
+State 150 conflicts: 10 shift/reduce
+State 169 conflicts: 10 shift/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 $@1: %empty
+
+    2 program: $@1 decl function
+
+    3 decl: tipo list_id
+    4     | %empty
+
+    5 tipo: INT
+    6     | FLOAT
+    7     | DOUBLE
+    8     | CHAR
+    9     | VOID
+   10     | STRUCT LKEY decl RKEY
+
+   11 list_id: list_id SEP ID tipo_arr
+   12        | ID tipo_arr
+
+   13 tipo_arr: LKEY ENT RKEY tipo_arr
+   14         | %empty
+
+   15 function: FUNC tipo ID LPAR def_param RPAR LKEY decl sent RKEY function
+   16         | %empty
+
+   17 def_param: list_param
+   18          | %empty
+
+   19 list_param: list_param SEP tipo ID param_arr
+   20           | tipo ID param_arr
+
+   21 param_arr: LBRA RBRA param_arr
+   22          | %empty
+
+   23 sent: sent sent
+   24     | ID ASIG exp PYC
+   25     | IF LPAR cond RPAR sent
+   26     | IF LPAR cond RPAR sent ELSE sent
+   27     | SWITCH LPAR exp RPAR LKEY casos pred RKEY
+   28     | LKEY sent RKEY
+   29     | PRINT exp
+   30     | FOR LPAR ids ASIG exp PYC cond PYC ids ASIG exp RPAR sent
+   31     | WHILE LPAR cond RPAR sent
+   32     | DO LKEY sent RKEY WHILE LPAR cond RPAR PYC
+   33     | ids ASIG exp PYC
+   34     | RETURN exp PYC
+   35     | RETURN PYC
+   36     | BREAK PYC
+
+   37 casos: CASE DP ENT sent casos
+   38      | %empty
+
+   39 pred: DEF DP sent
+   40     | %empty
+
+   41 ids: ID
+   42    | arr
+   43    | ID PUNTO ID
+
+   44 arr: ID LKEY exp RKEY
+   45    | arr LKEY exp RKEY
+
+   46 exp: exp ADD exp
+   47    | exp SUB exp
+   48    | exp MUL exp
+   49    | exp DIV exp
+   50    | exp MOD exp
+   51    | ids
+   52    | ENT
+   53    | REAL
+   54    | CAR
+   55    | CAD
+   56    | ID LPAR paso_param RPAR
+
+   57 paso_param: paso_param SEP exp
+   58           | exp
+
+   59 cond: cond OR cond
+   60     | cond AND cond
+   61     | LPAR cond RPAR
+   62     | exp rel exp
+   63     | NOT cond
+   64     | TR
+   65     | FLS
+
+   66 rel: EQUAL
+   67    | NE
+   68    | GT
+   69    | GTE
+   70    | LT
+   71    | LTE
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+ID (258) 11 12 15 19 20 24 41 43 44 56
+REAL (259) 53
+ENT (260) 13 37 52
+CAR (261) 54
+CAD (262) 55
+DOUBLE (263) 7
+FLOAT (264) 6
+INT (265) 5
+CHAR (266) 8
+STRING (267)
+STRUCT (268) 10
+FUNC (269) 15
+PRINT (270) 29
+VOID (271) 9
+IF (272) 25 26
+SWITCH (273) 27
+CASE (274) 37
+DEF (275) 39
+FOR (276) 30
+DO (277) 32
+WHILE (278) 31 32
+RETURN (279) 34 35
+BREAK (280) 36
+TR (281) 64
+FLS (282) 65
+PYC (283) 24 30 32 33 34 35 36
+SEP (284) 11 19 57
+DP (285) 37 39
+LKEY (286) 10 13 15 27 28 32 44 45
+RKEY (287) 10 13 15 27 28 32 44 45
+LBRA (288) 21
+RBRA (289) 21
+SEPX (290)
+ASIG (291) 24 30 33
+OR (292) 59
+AND (293) 60
+EQUAL (294) 66
+NE (295) 67
+GT (296) 68
+LT (297) 70
+GTE (298) 69
+LTE (299) 71
+NOT (300) 63
+ADD (301) 46
+SUB (302) 47
+MUL (303) 48
+DIV (304) 49
+MOD (305) 50
+RPAR (306) 15 25 26 27 30 31 32 56 61
+LPAR (307) 15 25 26 27 30 31 32 56 61
+FUNCX (308)
+ARRX (309)
+PUNTO (310) 43
+IFX (311)
+ELSE (312) 26
+
+
+Nonterminals, with rules where they appear
+
+$accept (58)
+    on left: 0
+program (59)
+    on left: 2, on right: 0
+$@1 (60)
+    on left: 1, on right: 2
+decl (61)
+    on left: 3 4, on right: 2 10 15
+tipo (62)
+    on left: 5 6 7 8 9 10, on right: 3 15 19 20
+list_id (63)
+    on left: 11 12, on right: 3 11
+tipo_arr (64)
+    on left: 13 14, on right: 11 12 13
+function (65)
+    on left: 15 16, on right: 2 15
+def_param (66)
+    on left: 17 18, on right: 15
+list_param (67)
+    on left: 19 20, on right: 17 19
+param_arr (68)
+    on left: 21 22, on right: 19 20 21
+sent (69)
+    on left: 23 24 25 26 27 28 29 30 31 32 33 34 35 36, on right: 15
+    23 25 26 28 30 31 32 37 39
+casos (70)
+    on left: 37 38, on right: 27 37
+pred (71)
+    on left: 39 40, on right: 27
+ids (72)
+    on left: 41 42 43, on right: 30 33 51
+arr (73)
+    on left: 44 45, on right: 42 45
+exp (74)
+    on left: 46 47 48 49 50 51 52 53 54 55 56, on right: 24 27 29 30
+    33 34 44 45 46 47 48 49 50 57 58 62
+paso_param (75)
+    on left: 57 58, on right: 56 57
+cond (76)
+    on left: 59 60 61 62 63 64 65, on right: 25 26 30 31 32 59 60 61
+    63
+rel (77)
+    on left: 66 67 68 69 70 71, on right: 62
+
+
+State 0
+
+    0 $accept: . program $end
+
+    $default  reduce using rule 1 ($@1)
+
+    program  go to state 1
+    $@1      go to state 2
+
+
+State 1
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 3
+
+
+State 2
+
+    2 program: $@1 . decl function
+
+    DOUBLE  shift, and go to state 4
+    FLOAT   shift, and go to state 5
+    INT     shift, and go to state 6
+    CHAR    shift, and go to state 7
+    STRUCT  shift, and go to state 8
+    VOID    shift, and go to state 9
+
+    $default  reduce using rule 4 (decl)
+
+    decl  go to state 10
+    tipo  go to state 11
+
+
+State 3
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 4
+
+    7 tipo: DOUBLE .
+
+    $default  reduce using rule 7 (tipo)
+
+
+State 5
+
+    6 tipo: FLOAT .
+
+    $default  reduce using rule 6 (tipo)
+
+
+State 6
+
+    5 tipo: INT .
+
+    $default  reduce using rule 5 (tipo)
+
+
+State 7
+
+    8 tipo: CHAR .
+
+    $default  reduce using rule 8 (tipo)
+
+
+State 8
+
+   10 tipo: STRUCT . LKEY decl RKEY
+
+    LKEY  shift, and go to state 12
+
+
+State 9
+
+    9 tipo: VOID .
+
+    $default  reduce using rule 9 (tipo)
+
+
+State 10
+
+    2 program: $@1 decl . function
+
+    FUNC  shift, and go to state 13
+
+    $default  reduce using rule 16 (function)
+
+    function  go to state 14
+
+
+State 11
+
+    3 decl: tipo . list_id
+
+    ID  shift, and go to state 15
+
+    list_id  go to state 16
+
+
+State 12
+
+   10 tipo: STRUCT LKEY . decl RKEY
+
+    DOUBLE  shift, and go to state 4
+    FLOAT   shift, and go to state 5
+    INT     shift, and go to state 6
+    CHAR    shift, and go to state 7
+    STRUCT  shift, and go to state 8
+    VOID    shift, and go to state 9
+
+    $default  reduce using rule 4 (decl)
+
+    decl  go to state 17
+    tipo  go to state 11
+
+
+State 13
+
+   15 function: FUNC . tipo ID LPAR def_param RPAR LKEY decl sent RKEY function
+
+    DOUBLE  shift, and go to state 4
+    FLOAT   shift, and go to state 5
+    INT     shift, and go to state 6
+    CHAR    shift, and go to state 7
+    STRUCT  shift, and go to state 8
+    VOID    shift, and go to state 9
+
+    tipo  go to state 18
+
+
+State 14
+
+    2 program: $@1 decl function .
+
+    $default  reduce using rule 2 (program)
+
+
+State 15
+
+   12 list_id: ID . tipo_arr
+
+    LKEY  shift, and go to state 19
+
+    LKEY      [reduce using rule 14 (tipo_arr)]
+    $default  reduce using rule 14 (tipo_arr)
+
+    tipo_arr  go to state 20
+
+
+State 16
+
+    3 decl: tipo list_id .
+   11 list_id: list_id . SEP ID tipo_arr
+
+    SEP  shift, and go to state 21
+
+    $default  reduce using rule 3 (decl)
+
+
+State 17
+
+   10 tipo: STRUCT LKEY decl . RKEY
+
+    RKEY  shift, and go to state 22
+
+
+State 18
+
+   15 function: FUNC tipo . ID LPAR def_param RPAR LKEY decl sent RKEY function
+
+    ID  shift, and go to state 23
+
+
+State 19
+
+   13 tipo_arr: LKEY . ENT RKEY tipo_arr
+
+    ENT  shift, and go to state 24
+
+
+State 20
+
+   12 list_id: ID tipo_arr .
+
+    $default  reduce using rule 12 (list_id)
+
+
+State 21
+
+   11 list_id: list_id SEP . ID tipo_arr
+
+    ID  shift, and go to state 25
+
+
+State 22
+
+   10 tipo: STRUCT LKEY decl RKEY .
+
+    $default  reduce using rule 10 (tipo)
+
+
+State 23
+
+   15 function: FUNC tipo ID . LPAR def_param RPAR LKEY decl sent RKEY function
+
+    LPAR  shift, and go to state 26
+
+
+State 24
+
+   13 tipo_arr: LKEY ENT . RKEY tipo_arr
+
+    RKEY  shift, and go to state 27
+
+
+State 25
+
+   11 list_id: list_id SEP ID . tipo_arr
+
+    LKEY  shift, and go to state 19
+
+    LKEY      [reduce using rule 14 (tipo_arr)]
+    $default  reduce using rule 14 (tipo_arr)
+
+    tipo_arr  go to state 28
+
+
+State 26
+
+   15 function: FUNC tipo ID LPAR . def_param RPAR LKEY decl sent RKEY function
+
+    DOUBLE  shift, and go to state 4
+    FLOAT   shift, and go to state 5
+    INT     shift, and go to state 6
+    CHAR    shift, and go to state 7
+    STRUCT  shift, and go to state 8
+    VOID    shift, and go to state 9
+
+    $default  reduce using rule 18 (def_param)
+
+    tipo        go to state 29
+    def_param   go to state 30
+    list_param  go to state 31
+
+
+State 27
+
+   13 tipo_arr: LKEY ENT RKEY . tipo_arr
+
+    LKEY  shift, and go to state 19
+
+    LKEY      [reduce using rule 14 (tipo_arr)]
+    $default  reduce using rule 14 (tipo_arr)
+
+    tipo_arr  go to state 32
+
+
+State 28
+
+   11 list_id: list_id SEP ID tipo_arr .
+
+    $default  reduce using rule 11 (list_id)
+
+
+State 29
+
+   20 list_param: tipo . ID param_arr
+
+    ID  shift, and go to state 33
+
+
+State 30
+
+   15 function: FUNC tipo ID LPAR def_param . RPAR LKEY decl sent RKEY function
+
+    RPAR  shift, and go to state 34
+
+
+State 31
+
+   17 def_param: list_param .
+   19 list_param: list_param . SEP tipo ID param_arr
+
+    SEP  shift, and go to state 35
+
+    $default  reduce using rule 17 (def_param)
+
+
+State 32
+
+   13 tipo_arr: LKEY ENT RKEY tipo_arr .
+
+    $default  reduce using rule 13 (tipo_arr)
+
+
+State 33
+
+   20 list_param: tipo ID . param_arr
+
+    LBRA  shift, and go to state 36
+
+    $default  reduce using rule 22 (param_arr)
+
+    param_arr  go to state 37
+
+
+State 34
+
+   15 function: FUNC tipo ID LPAR def_param RPAR . LKEY decl sent RKEY function
+
+    LKEY  shift, and go to state 38
+
+
+State 35
+
+   19 list_param: list_param SEP . tipo ID param_arr
+
+    DOUBLE  shift, and go to state 4
+    FLOAT   shift, and go to state 5
+    INT     shift, and go to state 6
+    CHAR    shift, and go to state 7
+    STRUCT  shift, and go to state 8
+    VOID    shift, and go to state 9
+
+    tipo  go to state 39
+
+
+State 36
+
+   21 param_arr: LBRA . RBRA param_arr
+
+    RBRA  shift, and go to state 40
+
+
+State 37
+
+   20 list_param: tipo ID param_arr .
+
+    $default  reduce using rule 20 (list_param)
+
+
+State 38
+
+   15 function: FUNC tipo ID LPAR def_param RPAR LKEY . decl sent RKEY function
+
+    DOUBLE  shift, and go to state 4
+    FLOAT   shift, and go to state 5
+    INT     shift, and go to state 6
+    CHAR    shift, and go to state 7
+    STRUCT  shift, and go to state 8
+    VOID    shift, and go to state 9
+
+    $default  reduce using rule 4 (decl)
+
+    decl  go to state 41
+    tipo  go to state 11
+
+
+State 39
+
+   19 list_param: list_param SEP tipo . ID param_arr
+
+    ID  shift, and go to state 42
+
+
+State 40
+
+   21 param_arr: LBRA RBRA . param_arr
+
+    LBRA  shift, and go to state 36
+
+    $default  reduce using rule 22 (param_arr)
+
+    param_arr  go to state 43
+
+
+State 41
+
+   15 function: FUNC tipo ID LPAR def_param RPAR LKEY decl . sent RKEY function
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+
+    sent  go to state 54
+    ids   go to state 55
+    arr   go to state 56
+
+
+State 42
+
+   19 list_param: list_param SEP tipo ID . param_arr
+
+    LBRA  shift, and go to state 36
+
+    $default  reduce using rule 22 (param_arr)
+
+    param_arr  go to state 57
+
+
+State 43
+
+   21 param_arr: LBRA RBRA param_arr .
+
+    $default  reduce using rule 21 (param_arr)
+
+
+State 44
+
+   24 sent: ID . ASIG exp PYC
+   41 ids: ID .
+   43    | ID . PUNTO ID
+   44 arr: ID . LKEY exp RKEY
+
+    LKEY   shift, and go to state 58
+    ASIG   shift, and go to state 59
+    PUNTO  shift, and go to state 60
+
+    ASIG  [reduce using rule 41 (ids)]
+
+
+State 45
+
+   29 sent: PRINT . exp
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+
+    ids  go to state 66
+    arr  go to state 56
+    exp  go to state 67
+
+
+State 46
+
+   25 sent: IF . LPAR cond RPAR sent
+   26     | IF . LPAR cond RPAR sent ELSE sent
+
+    LPAR  shift, and go to state 68
+
+
+State 47
+
+   27 sent: SWITCH . LPAR exp RPAR LKEY casos pred RKEY
+
+    LPAR  shift, and go to state 69
+
+
+State 48
+
+   30 sent: FOR . LPAR ids ASIG exp PYC cond PYC ids ASIG exp RPAR sent
+
+    LPAR  shift, and go to state 70
+
+
+State 49
+
+   32 sent: DO . LKEY sent RKEY WHILE LPAR cond RPAR PYC
+
+    LKEY  shift, and go to state 71
+
+
+State 50
+
+   31 sent: WHILE . LPAR cond RPAR sent
+
+    LPAR  shift, and go to state 72
+
+
+State 51
+
+   34 sent: RETURN . exp PYC
+   35     | RETURN . PYC
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+    PYC   shift, and go to state 73
+
+    ids  go to state 66
+    arr  go to state 56
+    exp  go to state 74
+
+
+State 52
+
+   36 sent: BREAK . PYC
+
+    PYC  shift, and go to state 75
+
+
+State 53
+
+   28 sent: LKEY . sent RKEY
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+
+    sent  go to state 76
+    ids   go to state 55
+    arr   go to state 56
+
+
+State 54
+
+   15 function: FUNC tipo ID LPAR def_param RPAR LKEY decl sent . RKEY function
+   23 sent: sent . sent
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+    RKEY    shift, and go to state 77
+
+    sent  go to state 78
+    ids   go to state 55
+    arr   go to state 56
+
+
+State 55
+
+   33 sent: ids . ASIG exp PYC
+
+    ASIG  shift, and go to state 79
+
+
+State 56
+
+   42 ids: arr .
+   45 arr: arr . LKEY exp RKEY
+
+    LKEY  shift, and go to state 80
+
+    LKEY      [reduce using rule 42 (ids)]
+    $default  reduce using rule 42 (ids)
+
+
+State 57
+
+   19 list_param: list_param SEP tipo ID param_arr .
+
+    $default  reduce using rule 19 (list_param)
+
+
+State 58
+
+   44 arr: ID LKEY . exp RKEY
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+
+    ids  go to state 66
+    arr  go to state 56
+    exp  go to state 81
+
+
+State 59
+
+   24 sent: ID ASIG . exp PYC
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+
+    ids  go to state 66
+    arr  go to state 56
+    exp  go to state 82
+
+
+State 60
+
+   43 ids: ID PUNTO . ID
+
+    ID  shift, and go to state 83
+
+
+State 61
+
+   41 ids: ID .
+   43    | ID . PUNTO ID
+   44 arr: ID . LKEY exp RKEY
+   56 exp: ID . LPAR paso_param RPAR
+
+    LKEY   shift, and go to state 58
+    LPAR   shift, and go to state 84
+    PUNTO  shift, and go to state 60
+
+    LKEY      [reduce using rule 41 (ids)]
+    $default  reduce using rule 41 (ids)
+
+
+State 62
+
+   53 exp: REAL .
+
+    $default  reduce using rule 53 (exp)
+
+
+State 63
+
+   52 exp: ENT .
+
+    $default  reduce using rule 52 (exp)
+
+
+State 64
+
+   54 exp: CAR .
+
+    $default  reduce using rule 54 (exp)
+
+
+State 65
+
+   55 exp: CAD .
+
+    $default  reduce using rule 55 (exp)
+
+
+State 66
+
+   51 exp: ids .
+
+    $default  reduce using rule 51 (exp)
+
+
+State 67
+
+   29 sent: PRINT exp .
+   46 exp: exp . ADD exp
+   47    | exp . SUB exp
+   48    | exp . MUL exp
+   49    | exp . DIV exp
+   50    | exp . MOD exp
+
+    ADD  shift, and go to state 85
+    SUB  shift, and go to state 86
+    MUL  shift, and go to state 87
+    DIV  shift, and go to state 88
+    MOD  shift, and go to state 89
+
+    $default  reduce using rule 29 (sent)
+
+
+State 68
+
+   25 sent: IF LPAR . cond RPAR sent
+   26     | IF LPAR . cond RPAR sent ELSE sent
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+    TR    shift, and go to state 90
+    FLS   shift, and go to state 91
+    NOT   shift, and go to state 92
+    LPAR  shift, and go to state 93
+
+    ids   go to state 66
+    arr   go to state 56
+    exp   go to state 94
+    cond  go to state 95
+
+
+State 69
+
+   27 sent: SWITCH LPAR . exp RPAR LKEY casos pred RKEY
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+
+    ids  go to state 66
+    arr  go to state 56
+    exp  go to state 96
+
+
+State 70
+
+   30 sent: FOR LPAR . ids ASIG exp PYC cond PYC ids ASIG exp RPAR sent
+
+    ID  shift, and go to state 97
+
+    ids  go to state 98
+    arr  go to state 56
+
+
+State 71
+
+   32 sent: DO LKEY . sent RKEY WHILE LPAR cond RPAR PYC
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+
+    sent  go to state 99
+    ids   go to state 55
+    arr   go to state 56
+
+
+State 72
+
+   31 sent: WHILE LPAR . cond RPAR sent
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+    TR    shift, and go to state 90
+    FLS   shift, and go to state 91
+    NOT   shift, and go to state 92
+    LPAR  shift, and go to state 93
+
+    ids   go to state 66
+    arr   go to state 56
+    exp   go to state 94
+    cond  go to state 100
+
+
+State 73
+
+   35 sent: RETURN PYC .
+
+    $default  reduce using rule 35 (sent)
+
+
+State 74
+
+   34 sent: RETURN exp . PYC
+   46 exp: exp . ADD exp
+   47    | exp . SUB exp
+   48    | exp . MUL exp
+   49    | exp . DIV exp
+   50    | exp . MOD exp
+
+    PYC  shift, and go to state 101
+    ADD  shift, and go to state 85
+    SUB  shift, and go to state 86
+    MUL  shift, and go to state 87
+    DIV  shift, and go to state 88
+    MOD  shift, and go to state 89
+
+
+State 75
+
+   36 sent: BREAK PYC .
+
+    $default  reduce using rule 36 (sent)
+
+
+State 76
+
+   23 sent: sent . sent
+   28     | LKEY sent . RKEY
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+    RKEY    shift, and go to state 102
+
+    sent  go to state 78
+    ids   go to state 55
+    arr   go to state 56
+
+
+State 77
+
+   15 function: FUNC tipo ID LPAR def_param RPAR LKEY decl sent RKEY . function
+
+    FUNC  shift, and go to state 13
+
+    $default  reduce using rule 16 (function)
+
+    function  go to state 103
+
+
+State 78
+
+   23 sent: sent . sent
+   23     | sent sent .
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+
+    ID        [reduce using rule 23 (sent)]
+    PRINT     [reduce using rule 23 (sent)]
+    IF        [reduce using rule 23 (sent)]
+    SWITCH    [reduce using rule 23 (sent)]
+    FOR       [reduce using rule 23 (sent)]
+    DO        [reduce using rule 23 (sent)]
+    WHILE     [reduce using rule 23 (sent)]
+    RETURN    [reduce using rule 23 (sent)]
+    BREAK     [reduce using rule 23 (sent)]
+    LKEY      [reduce using rule 23 (sent)]
+    $default  reduce using rule 23 (sent)
+
+    sent  go to state 78
+    ids   go to state 55
+    arr   go to state 56
+
+
+State 79
+
+   33 sent: ids ASIG . exp PYC
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+
+    ids  go to state 66
+    arr  go to state 56
+    exp  go to state 104
+
+
+State 80
+
+   45 arr: arr LKEY . exp RKEY
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+
+    ids  go to state 66
+    arr  go to state 56
+    exp  go to state 105
+
+
+State 81
+
+   44 arr: ID LKEY exp . RKEY
+   46 exp: exp . ADD exp
+   47    | exp . SUB exp
+   48    | exp . MUL exp
+   49    | exp . DIV exp
+   50    | exp . MOD exp
+
+    RKEY  shift, and go to state 106
+    ADD   shift, and go to state 85
+    SUB   shift, and go to state 86
+    MUL   shift, and go to state 87
+    DIV   shift, and go to state 88
+    MOD   shift, and go to state 89
+
+
+State 82
+
+   24 sent: ID ASIG exp . PYC
+   46 exp: exp . ADD exp
+   47    | exp . SUB exp
+   48    | exp . MUL exp
+   49    | exp . DIV exp
+   50    | exp . MOD exp
+
+    PYC  shift, and go to state 107
+    ADD  shift, and go to state 85
+    SUB  shift, and go to state 86
+    MUL  shift, and go to state 87
+    DIV  shift, and go to state 88
+    MOD  shift, and go to state 89
+
+
+State 83
+
+   43 ids: ID PUNTO ID .
+
+    $default  reduce using rule 43 (ids)
+
+
+State 84
+
+   56 exp: ID LPAR . paso_param RPAR
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+
+    ids         go to state 66
+    arr         go to state 56
+    exp         go to state 108
+    paso_param  go to state 109
+
+
+State 85
+
+   46 exp: exp ADD . exp
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+
+    ids  go to state 66
+    arr  go to state 56
+    exp  go to state 110
+
+
+State 86
+
+   47 exp: exp SUB . exp
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+
+    ids  go to state 66
+    arr  go to state 56
+    exp  go to state 111
+
+
+State 87
+
+   48 exp: exp MUL . exp
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+
+    ids  go to state 66
+    arr  go to state 56
+    exp  go to state 112
+
+
+State 88
+
+   49 exp: exp DIV . exp
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+
+    ids  go to state 66
+    arr  go to state 56
+    exp  go to state 113
+
+
+State 89
+
+   50 exp: exp MOD . exp
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+
+    ids  go to state 66
+    arr  go to state 56
+    exp  go to state 114
+
+
+State 90
+
+   64 cond: TR .
+
+    $default  reduce using rule 64 (cond)
+
+
+State 91
+
+   65 cond: FLS .
+
+    $default  reduce using rule 65 (cond)
+
+
+State 92
+
+   63 cond: NOT . cond
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+    TR    shift, and go to state 90
+    FLS   shift, and go to state 91
+    NOT   shift, and go to state 92
+    LPAR  shift, and go to state 93
+
+    ids   go to state 66
+    arr   go to state 56
+    exp   go to state 94
+    cond  go to state 115
+
+
+State 93
+
+   61 cond: LPAR . cond RPAR
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+    TR    shift, and go to state 90
+    FLS   shift, and go to state 91
+    NOT   shift, and go to state 92
+    LPAR  shift, and go to state 93
+
+    ids   go to state 66
+    arr   go to state 56
+    exp   go to state 94
+    cond  go to state 116
+
+
+State 94
+
+   46 exp: exp . ADD exp
+   47    | exp . SUB exp
+   48    | exp . MUL exp
+   49    | exp . DIV exp
+   50    | exp . MOD exp
+   62 cond: exp . rel exp
+
+    EQUAL  shift, and go to state 117
+    NE     shift, and go to state 118
+    GT     shift, and go to state 119
+    LT     shift, and go to state 120
+    GTE    shift, and go to state 121
+    LTE    shift, and go to state 122
+    ADD    shift, and go to state 85
+    SUB    shift, and go to state 86
+    MUL    shift, and go to state 87
+    DIV    shift, and go to state 88
+    MOD    shift, and go to state 89
+
+    rel  go to state 123
+
+
+State 95
+
+   25 sent: IF LPAR cond . RPAR sent
+   26     | IF LPAR cond . RPAR sent ELSE sent
+   59 cond: cond . OR cond
+   60     | cond . AND cond
+
+    OR    shift, and go to state 124
+    AND   shift, and go to state 125
+    RPAR  shift, and go to state 126
+
+
+State 96
+
+   27 sent: SWITCH LPAR exp . RPAR LKEY casos pred RKEY
+   46 exp: exp . ADD exp
+   47    | exp . SUB exp
+   48    | exp . MUL exp
+   49    | exp . DIV exp
+   50    | exp . MOD exp
+
+    ADD   shift, and go to state 85
+    SUB   shift, and go to state 86
+    MUL   shift, and go to state 87
+    DIV   shift, and go to state 88
+    MOD   shift, and go to state 89
+    RPAR  shift, and go to state 127
+
+
+State 97
+
+   41 ids: ID .
+   43    | ID . PUNTO ID
+   44 arr: ID . LKEY exp RKEY
+
+    LKEY   shift, and go to state 58
+    PUNTO  shift, and go to state 60
+
+    $default  reduce using rule 41 (ids)
+
+
+State 98
+
+   30 sent: FOR LPAR ids . ASIG exp PYC cond PYC ids ASIG exp RPAR sent
+
+    ASIG  shift, and go to state 128
+
+
+State 99
+
+   23 sent: sent . sent
+   32     | DO LKEY sent . RKEY WHILE LPAR cond RPAR PYC
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+    RKEY    shift, and go to state 129
+
+    sent  go to state 78
+    ids   go to state 55
+    arr   go to state 56
+
+
+State 100
+
+   31 sent: WHILE LPAR cond . RPAR sent
+   59 cond: cond . OR cond
+   60     | cond . AND cond
+
+    OR    shift, and go to state 124
+    AND   shift, and go to state 125
+    RPAR  shift, and go to state 130
+
+
+State 101
+
+   34 sent: RETURN exp PYC .
+
+    $default  reduce using rule 34 (sent)
+
+
+State 102
+
+   28 sent: LKEY sent RKEY .
+
+    $default  reduce using rule 28 (sent)
+
+
+State 103
+
+   15 function: FUNC tipo ID LPAR def_param RPAR LKEY decl sent RKEY function .
+
+    $default  reduce using rule 15 (function)
+
+
+State 104
+
+   33 sent: ids ASIG exp . PYC
+   46 exp: exp . ADD exp
+   47    | exp . SUB exp
+   48    | exp . MUL exp
+   49    | exp . DIV exp
+   50    | exp . MOD exp
+
+    PYC  shift, and go to state 131
+    ADD  shift, and go to state 85
+    SUB  shift, and go to state 86
+    MUL  shift, and go to state 87
+    DIV  shift, and go to state 88
+    MOD  shift, and go to state 89
+
+
+State 105
+
+   45 arr: arr LKEY exp . RKEY
+   46 exp: exp . ADD exp
+   47    | exp . SUB exp
+   48    | exp . MUL exp
+   49    | exp . DIV exp
+   50    | exp . MOD exp
+
+    RKEY  shift, and go to state 132
+    ADD   shift, and go to state 85
+    SUB   shift, and go to state 86
+    MUL   shift, and go to state 87
+    DIV   shift, and go to state 88
+    MOD   shift, and go to state 89
+
+
+State 106
+
+   44 arr: ID LKEY exp RKEY .
+
+    $default  reduce using rule 44 (arr)
+
+
+State 107
+
+   24 sent: ID ASIG exp PYC .
+
+    $default  reduce using rule 24 (sent)
+
+
+State 108
+
+   46 exp: exp . ADD exp
+   47    | exp . SUB exp
+   48    | exp . MUL exp
+   49    | exp . DIV exp
+   50    | exp . MOD exp
+   58 paso_param: exp .
+
+    ADD  shift, and go to state 85
+    SUB  shift, and go to state 86
+    MUL  shift, and go to state 87
+    DIV  shift, and go to state 88
+    MOD  shift, and go to state 89
+
+    $default  reduce using rule 58 (paso_param)
+
+
+State 109
+
+   56 exp: ID LPAR paso_param . RPAR
+   57 paso_param: paso_param . SEP exp
+
+    SEP   shift, and go to state 133
+    RPAR  shift, and go to state 134
+
+
+State 110
+
+   46 exp: exp . ADD exp
+   46    | exp ADD exp .
+   47    | exp . SUB exp
+   48    | exp . MUL exp
+   49    | exp . DIV exp
+   50    | exp . MOD exp
+
+    MUL  shift, and go to state 87
+    DIV  shift, and go to state 88
+    MOD  shift, and go to state 89
+
+    $default  reduce using rule 46 (exp)
+
+
+State 111
+
+   46 exp: exp . ADD exp
+   47    | exp . SUB exp
+   47    | exp SUB exp .
+   48    | exp . MUL exp
+   49    | exp . DIV exp
+   50    | exp . MOD exp
+
+    MUL  shift, and go to state 87
+    DIV  shift, and go to state 88
+    MOD  shift, and go to state 89
+
+    $default  reduce using rule 47 (exp)
+
+
+State 112
+
+   46 exp: exp . ADD exp
+   47    | exp . SUB exp
+   48    | exp . MUL exp
+   48    | exp MUL exp .
+   49    | exp . DIV exp
+   50    | exp . MOD exp
+
+    $default  reduce using rule 48 (exp)
+
+
+State 113
+
+   46 exp: exp . ADD exp
+   47    | exp . SUB exp
+   48    | exp . MUL exp
+   49    | exp . DIV exp
+   49    | exp DIV exp .
+   50    | exp . MOD exp
+
+    $default  reduce using rule 49 (exp)
+
+
+State 114
+
+   46 exp: exp . ADD exp
+   47    | exp . SUB exp
+   48    | exp . MUL exp
+   49    | exp . DIV exp
+   50    | exp . MOD exp
+   50    | exp MOD exp .
+
+    $default  reduce using rule 50 (exp)
+
+
+State 115
+
+   59 cond: cond . OR cond
+   60     | cond . AND cond
+   63     | NOT cond .
+
+    $default  reduce using rule 63 (cond)
+
+
+State 116
+
+   59 cond: cond . OR cond
+   60     | cond . AND cond
+   61     | LPAR cond . RPAR
+
+    OR    shift, and go to state 124
+    AND   shift, and go to state 125
+    RPAR  shift, and go to state 135
+
+
+State 117
+
+   66 rel: EQUAL .
+
+    $default  reduce using rule 66 (rel)
+
+
+State 118
+
+   67 rel: NE .
+
+    $default  reduce using rule 67 (rel)
+
+
+State 119
+
+   68 rel: GT .
+
+    $default  reduce using rule 68 (rel)
+
+
+State 120
+
+   70 rel: LT .
+
+    $default  reduce using rule 70 (rel)
+
+
+State 121
+
+   69 rel: GTE .
+
+    $default  reduce using rule 69 (rel)
+
+
+State 122
+
+   71 rel: LTE .
+
+    $default  reduce using rule 71 (rel)
+
+
+State 123
+
+   62 cond: exp rel . exp
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+
+    ids  go to state 66
+    arr  go to state 56
+    exp  go to state 136
+
+
+State 124
+
+   59 cond: cond OR . cond
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+    TR    shift, and go to state 90
+    FLS   shift, and go to state 91
+    NOT   shift, and go to state 92
+    LPAR  shift, and go to state 93
+
+    ids   go to state 66
+    arr   go to state 56
+    exp   go to state 94
+    cond  go to state 137
+
+
+State 125
+
+   60 cond: cond AND . cond
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+    TR    shift, and go to state 90
+    FLS   shift, and go to state 91
+    NOT   shift, and go to state 92
+    LPAR  shift, and go to state 93
+
+    ids   go to state 66
+    arr   go to state 56
+    exp   go to state 94
+    cond  go to state 138
+
+
+State 126
+
+   25 sent: IF LPAR cond RPAR . sent
+   26     | IF LPAR cond RPAR . sent ELSE sent
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+
+    sent  go to state 139
+    ids   go to state 55
+    arr   go to state 56
+
+
+State 127
+
+   27 sent: SWITCH LPAR exp RPAR . LKEY casos pred RKEY
+
+    LKEY  shift, and go to state 140
+
+
+State 128
+
+   30 sent: FOR LPAR ids ASIG . exp PYC cond PYC ids ASIG exp RPAR sent
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+
+    ids  go to state 66
+    arr  go to state 56
+    exp  go to state 141
+
+
+State 129
+
+   32 sent: DO LKEY sent RKEY . WHILE LPAR cond RPAR PYC
+
+    WHILE  shift, and go to state 142
+
+
+State 130
+
+   31 sent: WHILE LPAR cond RPAR . sent
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+
+    sent  go to state 143
+    ids   go to state 55
+    arr   go to state 56
+
+
+State 131
+
+   33 sent: ids ASIG exp PYC .
+
+    $default  reduce using rule 33 (sent)
+
+
+State 132
+
+   45 arr: arr LKEY exp RKEY .
+
+    $default  reduce using rule 45 (arr)
+
+
+State 133
+
+   57 paso_param: paso_param SEP . exp
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+
+    ids  go to state 66
+    arr  go to state 56
+    exp  go to state 144
+
+
+State 134
+
+   56 exp: ID LPAR paso_param RPAR .
+
+    $default  reduce using rule 56 (exp)
+
+
+State 135
+
+   61 cond: LPAR cond RPAR .
+
+    $default  reduce using rule 61 (cond)
+
+
+State 136
+
+   46 exp: exp . ADD exp
+   47    | exp . SUB exp
+   48    | exp . MUL exp
+   49    | exp . DIV exp
+   50    | exp . MOD exp
+   62 cond: exp rel exp .
+
+    ADD  shift, and go to state 85
+    SUB  shift, and go to state 86
+    MUL  shift, and go to state 87
+    DIV  shift, and go to state 88
+    MOD  shift, and go to state 89
+
+    $default  reduce using rule 62 (cond)
+
+
+State 137
+
+   59 cond: cond . OR cond
+   59     | cond OR cond .
+   60     | cond . AND cond
+
+    AND  shift, and go to state 125
+
+    $default  reduce using rule 59 (cond)
+
+
+State 138
+
+   59 cond: cond . OR cond
+   60     | cond . AND cond
+   60     | cond AND cond .
+
+    $default  reduce using rule 60 (cond)
+
+
+State 139
+
+   23 sent: sent . sent
+   25     | IF LPAR cond RPAR sent .
+   26     | IF LPAR cond RPAR sent . ELSE sent
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+    ELSE    shift, and go to state 145
+
+    ID        [reduce using rule 25 (sent)]
+    PRINT     [reduce using rule 25 (sent)]
+    IF        [reduce using rule 25 (sent)]
+    SWITCH    [reduce using rule 25 (sent)]
+    FOR       [reduce using rule 25 (sent)]
+    DO        [reduce using rule 25 (sent)]
+    WHILE     [reduce using rule 25 (sent)]
+    RETURN    [reduce using rule 25 (sent)]
+    BREAK     [reduce using rule 25 (sent)]
+    LKEY      [reduce using rule 25 (sent)]
+    $default  reduce using rule 25 (sent)
+
+    sent  go to state 78
+    ids   go to state 55
+    arr   go to state 56
+
+
+State 140
+
+   27 sent: SWITCH LPAR exp RPAR LKEY . casos pred RKEY
+
+    CASE  shift, and go to state 146
+
+    $default  reduce using rule 38 (casos)
+
+    casos  go to state 147
+
+
+State 141
+
+   30 sent: FOR LPAR ids ASIG exp . PYC cond PYC ids ASIG exp RPAR sent
+   46 exp: exp . ADD exp
+   47    | exp . SUB exp
+   48    | exp . MUL exp
+   49    | exp . DIV exp
+   50    | exp . MOD exp
+
+    PYC  shift, and go to state 148
+    ADD  shift, and go to state 85
+    SUB  shift, and go to state 86
+    MUL  shift, and go to state 87
+    DIV  shift, and go to state 88
+    MOD  shift, and go to state 89
+
+
+State 142
+
+   32 sent: DO LKEY sent RKEY WHILE . LPAR cond RPAR PYC
+
+    LPAR  shift, and go to state 149
+
+
+State 143
+
+   23 sent: sent . sent
+   31     | WHILE LPAR cond RPAR sent .
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+
+    ID        [reduce using rule 31 (sent)]
+    PRINT     [reduce using rule 31 (sent)]
+    IF        [reduce using rule 31 (sent)]
+    SWITCH    [reduce using rule 31 (sent)]
+    FOR       [reduce using rule 31 (sent)]
+    DO        [reduce using rule 31 (sent)]
+    WHILE     [reduce using rule 31 (sent)]
+    RETURN    [reduce using rule 31 (sent)]
+    BREAK     [reduce using rule 31 (sent)]
+    LKEY      [reduce using rule 31 (sent)]
+    $default  reduce using rule 31 (sent)
+
+    sent  go to state 78
+    ids   go to state 55
+    arr   go to state 56
+
+
+State 144
+
+   46 exp: exp . ADD exp
+   47    | exp . SUB exp
+   48    | exp . MUL exp
+   49    | exp . DIV exp
+   50    | exp . MOD exp
+   57 paso_param: paso_param SEP exp .
+
+    ADD  shift, and go to state 85
+    SUB  shift, and go to state 86
+    MUL  shift, and go to state 87
+    DIV  shift, and go to state 88
+    MOD  shift, and go to state 89
+
+    $default  reduce using rule 57 (paso_param)
+
+
+State 145
+
+   26 sent: IF LPAR cond RPAR sent ELSE . sent
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+
+    sent  go to state 150
+    ids   go to state 55
+    arr   go to state 56
+
+
+State 146
+
+   37 casos: CASE . DP ENT sent casos
+
+    DP  shift, and go to state 151
+
+
+State 147
+
+   27 sent: SWITCH LPAR exp RPAR LKEY casos . pred RKEY
+
+    DEF  shift, and go to state 152
+
+    $default  reduce using rule 40 (pred)
+
+    pred  go to state 153
+
+
+State 148
+
+   30 sent: FOR LPAR ids ASIG exp PYC . cond PYC ids ASIG exp RPAR sent
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+    TR    shift, and go to state 90
+    FLS   shift, and go to state 91
+    NOT   shift, and go to state 92
+    LPAR  shift, and go to state 93
+
+    ids   go to state 66
+    arr   go to state 56
+    exp   go to state 94
+    cond  go to state 154
+
+
+State 149
+
+   32 sent: DO LKEY sent RKEY WHILE LPAR . cond RPAR PYC
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+    TR    shift, and go to state 90
+    FLS   shift, and go to state 91
+    NOT   shift, and go to state 92
+    LPAR  shift, and go to state 93
+
+    ids   go to state 66
+    arr   go to state 56
+    exp   go to state 94
+    cond  go to state 155
+
+
+State 150
+
+   23 sent: sent . sent
+   26     | IF LPAR cond RPAR sent ELSE sent .
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+
+    ID        [reduce using rule 26 (sent)]
+    PRINT     [reduce using rule 26 (sent)]
+    IF        [reduce using rule 26 (sent)]
+    SWITCH    [reduce using rule 26 (sent)]
+    FOR       [reduce using rule 26 (sent)]
+    DO        [reduce using rule 26 (sent)]
+    WHILE     [reduce using rule 26 (sent)]
+    RETURN    [reduce using rule 26 (sent)]
+    BREAK     [reduce using rule 26 (sent)]
+    LKEY      [reduce using rule 26 (sent)]
+    $default  reduce using rule 26 (sent)
+
+    sent  go to state 78
+    ids   go to state 55
+    arr   go to state 56
+
+
+State 151
+
+   37 casos: CASE DP . ENT sent casos
+
+    ENT  shift, and go to state 156
+
+
+State 152
+
+   39 pred: DEF . DP sent
+
+    DP  shift, and go to state 157
+
+
+State 153
+
+   27 sent: SWITCH LPAR exp RPAR LKEY casos pred . RKEY
+
+    RKEY  shift, and go to state 158
+
+
+State 154
+
+   30 sent: FOR LPAR ids ASIG exp PYC cond . PYC ids ASIG exp RPAR sent
+   59 cond: cond . OR cond
+   60     | cond . AND cond
+
+    PYC  shift, and go to state 159
+    OR   shift, and go to state 124
+    AND  shift, and go to state 125
+
+
+State 155
+
+   32 sent: DO LKEY sent RKEY WHILE LPAR cond . RPAR PYC
+   59 cond: cond . OR cond
+   60     | cond . AND cond
+
+    OR    shift, and go to state 124
+    AND   shift, and go to state 125
+    RPAR  shift, and go to state 160
+
+
+State 156
+
+   37 casos: CASE DP ENT . sent casos
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+
+    sent  go to state 161
+    ids   go to state 55
+    arr   go to state 56
+
+
+State 157
+
+   39 pred: DEF DP . sent
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+
+    sent  go to state 162
+    ids   go to state 55
+    arr   go to state 56
+
+
+State 158
+
+   27 sent: SWITCH LPAR exp RPAR LKEY casos pred RKEY .
+
+    $default  reduce using rule 27 (sent)
+
+
+State 159
+
+   30 sent: FOR LPAR ids ASIG exp PYC cond PYC . ids ASIG exp RPAR sent
+
+    ID  shift, and go to state 97
+
+    ids  go to state 163
+    arr  go to state 56
+
+
+State 160
+
+   32 sent: DO LKEY sent RKEY WHILE LPAR cond RPAR . PYC
+
+    PYC  shift, and go to state 164
+
+
+State 161
+
+   23 sent: sent . sent
+   37 casos: CASE DP ENT sent . casos
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    CASE    shift, and go to state 146
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+
+    $default  reduce using rule 38 (casos)
+
+    sent   go to state 78
+    casos  go to state 165
+    ids    go to state 55
+    arr    go to state 56
+
+
+State 162
+
+   23 sent: sent . sent
+   39 pred: DEF DP sent .
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+
+    $default  reduce using rule 39 (pred)
+
+    sent  go to state 78
+    ids   go to state 55
+    arr   go to state 56
+
+
+State 163
+
+   30 sent: FOR LPAR ids ASIG exp PYC cond PYC ids . ASIG exp RPAR sent
+
+    ASIG  shift, and go to state 166
+
+
+State 164
+
+   32 sent: DO LKEY sent RKEY WHILE LPAR cond RPAR PYC .
+
+    $default  reduce using rule 32 (sent)
+
+
+State 165
+
+   37 casos: CASE DP ENT sent casos .
+
+    $default  reduce using rule 37 (casos)
+
+
+State 166
+
+   30 sent: FOR LPAR ids ASIG exp PYC cond PYC ids ASIG . exp RPAR sent
+
+    ID    shift, and go to state 61
+    REAL  shift, and go to state 62
+    ENT   shift, and go to state 63
+    CAR   shift, and go to state 64
+    CAD   shift, and go to state 65
+
+    ids  go to state 66
+    arr  go to state 56
+    exp  go to state 167
+
+
+State 167
+
+   30 sent: FOR LPAR ids ASIG exp PYC cond PYC ids ASIG exp . RPAR sent
+   46 exp: exp . ADD exp
+   47    | exp . SUB exp
+   48    | exp . MUL exp
+   49    | exp . DIV exp
+   50    | exp . MOD exp
+
+    ADD   shift, and go to state 85
+    SUB   shift, and go to state 86
+    MUL   shift, and go to state 87
+    DIV   shift, and go to state 88
+    MOD   shift, and go to state 89
+    RPAR  shift, and go to state 168
+
+
+State 168
+
+   30 sent: FOR LPAR ids ASIG exp PYC cond PYC ids ASIG exp RPAR . sent
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+
+    sent  go to state 169
+    ids   go to state 55
+    arr   go to state 56
+
+
+State 169
+
+   23 sent: sent . sent
+   30     | FOR LPAR ids ASIG exp PYC cond PYC ids ASIG exp RPAR sent .
+
+    ID      shift, and go to state 44
+    PRINT   shift, and go to state 45
+    IF      shift, and go to state 46
+    SWITCH  shift, and go to state 47
+    FOR     shift, and go to state 48
+    DO      shift, and go to state 49
+    WHILE   shift, and go to state 50
+    RETURN  shift, and go to state 51
+    BREAK   shift, and go to state 52
+    LKEY    shift, and go to state 53
+
+    ID        [reduce using rule 30 (sent)]
+    PRINT     [reduce using rule 30 (sent)]
+    IF        [reduce using rule 30 (sent)]
+    SWITCH    [reduce using rule 30 (sent)]
+    FOR       [reduce using rule 30 (sent)]
+    DO        [reduce using rule 30 (sent)]
+    WHILE     [reduce using rule 30 (sent)]
+    RETURN    [reduce using rule 30 (sent)]
+    BREAK     [reduce using rule 30 (sent)]
+    LKEY      [reduce using rule 30 (sent)]
+    $default  reduce using rule 30 (sent)
+
+    sent  go to state 78
+    ids   go to state 55
+    arr   go to state 56
