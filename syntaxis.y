@@ -1,7 +1,7 @@
 %{
 #include <stdio.h>
-#include <string.h>
 #include "symbols.h"
+
 
 extern FILE *yyin;
 extern int yylex();
@@ -17,19 +17,19 @@ int siginst;
 %}
 
 %union{
-    char sval[32];
+    char *sval;
     int line;
 }
 
-%token <sval> ID
 %token REAL ENT 
+%token <sval> ID
 %token CAR CAD
-%token DOUBLE FLOAT INT CHAR STRING STRUCT FUNC PRINT VOID
-%token IF SWITCH CASE DEF FOR DO WHILE RETURN BREAK 
+%token DOUBLE FLOAT INT CHAR STRUCT FUNC VOID
+%token IF SWITCH WHILE FOR DO RETURN BREAK PRINT
+%token CASE DEF
 %token TR FLS
 %token PYC SEP DP
-%token LKEY RKEY
-%token LBRA RBRA
+
 
 %left SEPX
 %left ASIG
@@ -44,9 +44,10 @@ int siginst;
 %left MUL DIV MOD
 %nonassoc RPAR LPAR
 
-%left FUNCX ARRX PUNTO
-
-%left IFX
+%nonassoc LBRA RBRA
+%left FUNCX ARRX PUNTO 
+%token LKEY RKEY
+%left IFX OPX
 %left ELSE
 
 
@@ -59,14 +60,14 @@ program : {init();}
             print_table();            
          };
 
-decl : tipo list_id
+decl : tipo list_id PYC
       | ;
 
 tipo : INT | FLOAT | DOUBLE | CHAR | VOID | STRUCT LKEY decl RKEY;
 
 list_id : list_id SEP ID tipo_arr | ID tipo_arr;
 
-tipo_arr : LKEY ENT RKEY tipo_arr | ;
+tipo_arr : LBRA ENT RBRA tipo_arr | ;
 
 function : FUNC tipo ID LPAR def_param RPAR LKEY decl sent RKEY function | ;
 
@@ -76,28 +77,27 @@ list_param : list_param SEP tipo ID param_arr %prec SEPX | tipo ID param_arr %pr
 
 param_arr : LBRA RBRA param_arr | ;
 
-sent :   sent sent  
-		| ID ASIG exp PYC
-        | IF LPAR cond RPAR sent %prec IFX
-        | IF LPAR cond RPAR sent ELSE sent
-		| SWITCH LPAR exp RPAR LKEY casos pred RKEY
-		| LKEY sent RKEY
-        | PRINT exp
-		| FOR LPAR ids ASIG exp PYC cond PYC ids ASIG exp RPAR sent
-        | WHILE LPAR cond RPAR sent
+sent : sent senti | senti ;
+senti : IF LPAR cond RPAR sent PYC %prec IFX
+        | IF LPAR cond RPAR sent ELSE sent PYC
+		| WHILE LPAR cond RPAR sent PYC
 		| DO LKEY sent RKEY WHILE LPAR cond RPAR PYC
+		| FOR LPAR ids ASIG exp PYC cond PYC ids ASIG exp RPAR sent PYC
 		| ids ASIG exp PYC
 		| RETURN exp PYC
 		| RETURN PYC
-        | BREAK PYC;
-		
+		| LKEY sent RKEY
+		| SWITCH LPAR exp RPAR LKEY casos pred RKEY
+        | BREAK PYC 
+        | PRINT exp;
+
 casos : CASE DP ENT sent casos | ;
 
 pred : DEF DP sent | ;
 
 ids : ID | arr | ID PUNTO ID;
 
-arr : ID LKEY exp RKEY %prec ARRX | arr LKEY exp RKEY %prec ARRX;
+arr : ID LBRA exp RBRA %prec ARRX | arr LBRA exp RBRA %prec ARRX;
 
 exp :  exp ADD exp 
         | exp SUB exp
